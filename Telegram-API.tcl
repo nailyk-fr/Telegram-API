@@ -303,15 +303,30 @@ proc tg2irc_pollTelegram {} {
 
 	#putlog "updateid: $tg_update_id"
 
+	# Catch if curl fail
 	if { [catch { 
 		set result [exec curl --tlsv1.2 -s -X POST https://api.telegram.org/bot$tg_bot_id:$tg_bot_token/getUpdates?offset=$tg_update_id] 
 	} ] } {
 		putlog "Telegram-API: cannot connect to api.telegram.com using getUpdates method: $result"
+		# Dont go into the parsing process but plan the next polling
+		utimer $tg_poll_freq tg2irc_pollTelegram^M
 		return -1
 	}
 
-	if {[jq::jq ".ok" $result] != "true"} {
+	# Catch if result isnot formated as it should (curl worked but get another page)
+	if { [catch { set isok [jq::jq ".ok" $result] } ] } {
+		putlog "Telegram-API: Error while reading TG result. No internet connection? "
+		# Dont go into the parsing process but plan the next polling
+		utimer $tg_poll_freq tg2irc_pollTelegram
+		return -1
+	}
+
+	# Catch if result is not in a format we can parse
+	if { $isok != "true"} {
 		putlog "Telegram-API: bad result from getUpdates method: [jsonGetValue $result "" "description"]"
+		return -1
+		# Dont go into the parsing process but plan the next polling
+		utimer $tg_poll_freq tg2irc_pollTelegram
 		return -1
 	}
 	#putlog "result true, clear update_id"
