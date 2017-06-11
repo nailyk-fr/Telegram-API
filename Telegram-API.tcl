@@ -406,7 +406,8 @@ proc tg2irc_pollTelegram {} {
 					set txt [remove_slashes [utf2ascii [jq::jq ".message.text" $msg ]]]
 					if { [jq::jq ".message.reply_to_message" $msg] != "null" } {
 						set replyname [jq::jq ".message.reply_to_message.from.username" $msg]
-						set txt "reply to $replyname: $txt"
+						catch [set color [computenickcolor $replyname]]
+						set txt "reply to \003$color$replyname\003: $txt"
 					}
 
 					foreach {tg_chat_id irc_channel} [array get tg_channels] {
