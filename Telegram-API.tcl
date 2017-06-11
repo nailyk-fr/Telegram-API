@@ -38,6 +38,42 @@ proc initialize {} {
 }
 
 
+# ---------------------------------------------------------------------------- #
+# Procedure to compute an int value from the arg string                        #
+# Convert all ascii char (from arg) to hex value                               #
+# then sum into one int.                                                       #
+# ---------------------------------------------------------------------------- #
+# Arg: String shouldnot contain space                                          #
+# Return: int base 10                                                          #
+# ---------------------------------------------------------------------------- #
+proc computenickcolor { nick } { 
+        set num [binary encode hex $nick]
+        set base 16
+
+        set total 0
+        foreach d [split $num ""] {
+            if {[string is alpha $d]} {
+                set d [expr {[scan [string tolower $d] %c] - 87}]
+            } elseif {![string is digit $d]} {
+                putlog "bad digit: $d"
+                return -1
+            }   
+            if {$d >= $base} {
+                putlog "bad digit: $d"
+                return -1
+            }   
+            incr total $d
+        }   
+
+		# Sum the result to produce the smallest number
+        # Unsafe but it can unlikely overflow. To get more than 99 the
+		# first computed number need to be more than 99 999 999 999
+        foreach d [split $total ""] {
+                incr result $d
+        }   
+
+        return $result
+}
 
 # ---------------------------------------------------------------------------- #
 # Procedures for sending data to the Telegram servers                          #
@@ -355,6 +391,15 @@ proc tg2irc_pollTelegram {} {
 			"group" {
 				set chatid [jq::jq ".message.chat.id" $msg]
 				set name [jq::jq ".message.from.username" $msg]
+
+				# If username is not find use first_name instead
+				if { $name == "null" } {
+					set name [jq::jq ".message.from.first_name" $msg]
+				}
+
+				# Colorize nick and store it
+				catch [set color [computenickcolor $name]]
+				set name "\003$color$name\003"
 				
 				#
 				if { [jq::jq ".message.text" $msg] != "null" } {
