@@ -343,7 +343,7 @@ proc tg2irc_pollTelegram {} {
 	if { [catch { 
 		set result [exec curl --tlsv1.2 -s -X POST https://api.telegram.org/bot$tg_bot_id:$tg_bot_token/getUpdates?offset=$tg_update_id] 
 	} ] } {
-		putlog "Telegram-API: cannot connect to api.telegram.com using getUpdates method: $result"
+		putlog "Telegram-API: cannot connect to api.telegram.com using getUpdates method."
 		# Dont go into the parsing process but plan the next polling
 		utimer $tg_poll_freq tg2irc_pollTelegram^M
 		return -1
