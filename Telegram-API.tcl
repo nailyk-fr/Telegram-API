@@ -345,7 +345,7 @@ proc tg2irc_pollTelegram {} {
 	} ] } {
 		putlog "Telegram-API: cannot connect to api.telegram.com using getUpdates method."
 		# Dont go into the parsing process but plan the next polling
-		utimer $tg_poll_freq tg2irc_pollTelegram^M
+		utimer $tg_poll_freq tg2irc_pollTelegram
 		return -1
 	}
 
