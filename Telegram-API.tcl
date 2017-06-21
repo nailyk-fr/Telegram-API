@@ -24,7 +24,7 @@ proc initialize {} {
 	if { [ catch {
 		set result [exec curl --tlsv1.2 -s -X POST https://api.telegram.org/bot$tg_bot_id:$tg_bot_token/getMe]
 	} ] } {
-		putlog "Telegram-API: cannot connect to api.telegram.com using getMe method: $result"
+		putlog "Telegram-API: cannot connect to api.telegram.com using getMe method."
 		return -1
 	}
 
@@ -86,7 +86,7 @@ proc tg_sendChatAction {chat_id action} {
 	if { [ catch {
 		set result [exec curl --tlsv1.2 -s -X POST https://api.telegram.org/bot$tg_bot_id:$tg_bot_token/sendChatAction -d chat_id=$chat_id -d action=$action]
 	} ] } {
-		putlog "Telegram-API: cannot connect to api.telegram.com using sendChatAction method: $result"
+		putlog "Telegram-API: cannot connect to api.telegram.com using sendChatAction method."
 		return -1
 	}
 	return result
@@ -101,7 +101,7 @@ proc tg_sendMessage {chat_id parse_mode message} {
 	if { [ catch {
 		set result [exec curl --tlsv1.2 -s -X POST https://api.telegram.org/bot$tg_bot_id:$tg_bot_token/sendMessage -d disable_web_page_preview=$tg_web_page_preview -d chat_id=$chat_id -d parse_mode=$parse_mode -d text=$message]
 	} ] } {
-		putlog "Telegram-API: cannot connect to api.telegram.com using sendMessage method: $result"
+		putlog "Telegram-API: cannot connect to api.telegram.com using sendMessage method."
 		return -1
 	}
 	return result
@@ -116,7 +116,7 @@ proc tg_sendReplyToMessage {chat_id msg_id parse_mode message} {
 	if { [ catch {
 		set result [exec curl --tlsv1.2 -s -X POST https://api.telegram.org/bot$tg_bot_id:$tg_bot_token/sendMessage -d disable_web_page_preview=$tg_web_page_preview -d chat_id=$chat_id -d parse_mode=$parse_mode -d reply_to_message_id=$msg_id -d text=$message]
 	} ] } {
-		putlog "Telegram-API: cannot connect to api.telegram.com using sendMessage reply method: $result"
+		putlog "Telegram-API: cannot connect to api.telegram.com using sendMessage reply method."
 		return -1
 	}
 	return result
@@ -131,7 +131,7 @@ proc tg_sendPhoto {chat_id msg_id photo caption} {
 	if { [ catch {
 		set result [exec curl --tlsv1.2 -s -X POST https://api.telegram.org/bot$tg_bot_id:$tg_bot_token/sendPhoto -d chat_id=$chat_id -d reply_to_message_id=$msg_id -d photo=$photo -d caption=$caption]
 	} ] } {
-		putlog "Telegram-API: cannot connect to api.telegram.com using sendPhoto method: $result"
+		putlog "Telegram-API: cannot connect to api.telegram.com using sendPhoto method."
 		return -1
 	}
 	return result
@@ -146,7 +146,7 @@ proc tg_kickChatMember {chat_id user_id} {
 	if { [ catch {
 		set result [exec curl --tlsv1.2 -s -X POST https://api.telegram.org/bot$tg_bot_id:$tg_bot_token/kickChatMember -d chat_id=$chat_id -d user_id=$user_id]
 	} ] } {
-		putlog "Telegram-API: cannot connect to api.telegram.com using kickChatMember method: $result"
+		putlog "Telegram-API: cannot connect to api.telegram.com using kickChatMember method."
 		return -1
 	}
 	return result
@@ -161,7 +161,7 @@ proc tg_getChat {chat_id} {
 	if { [ catch {
 		set result [exec curl --tlsv1.2 -s -X POST https://api.telegram.org/bot$tg_bot_id:$tg_bot_token/getChat -d chat_id=$chat_id]
 	} ] } {
-		putlog "Telegram-API: cannot connect to api.telegram.com using getChat method: $result"
+		putlog "Telegram-API: cannot connect to api.telegram.com using getChat method."
 		return -1
 	}
 	return result
@@ -176,7 +176,7 @@ proc tg_getChatAdministrators {chat_id} {
 	if { [ catch {
 		set result [exec curl --tlsv1.2 -s -X POST https://api.telegram.org/bot$tg_bot_id:$tg_bot_token/getChatAdministrators -d chat_id=$chat_id]
 	} ] } {
-		putlog "Telegram-API: cannot connect to api.telegram.com using getChatAdministrators method: $result"
+		putlog "Telegram-API: cannot connect to api.telegram.com using getChatAdministrators method."
 		return -1
 	}
 	return result
@@ -191,7 +191,7 @@ proc tg_getChatMembersCount {chat_id} {
 	if { [ catch {
 		set result [exec curl --tlsv1.2 -s -X POST https://api.telegram.org/bot$tg_bot_id:$tg_bot_token/getChatMembersCount -d chat_id=$chat_id]
 	} ] } {
-		putlog "Telegram-API: cannot connect to api.telegram.com using getChatMembersCount method: $result"
+		putlog "Telegram-API: cannot connect to api.telegram.com using getChatMembersCount method."
 		return -1
 	}
 	return result
@@ -206,7 +206,7 @@ proc tg_getChatMember {chat_id user_id} {
 	if { [ catch {
 		set result [exec curl --tlsv1.2 -s -X POST https://api.telegram.org/bot$tg_bot_id:$tg_bot_token/getChatMember -d chat_id=$chat_id -d user_id=$user_id]
 	} ] } {
-		putlog "Telegram-API: cannot connect to api.telegram.com using getChatMember method: $result"
+		putlog "Telegram-API: cannot connect to api.telegram.com using getChatMember method."
 		return -1
 	}
 	return result
