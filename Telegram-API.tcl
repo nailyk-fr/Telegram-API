@@ -388,6 +388,7 @@ proc tg2irc_pollTelegram {} {
 			}
 
 			# Check if this record is a group chat record...
+			"supergroup" -
 			"group" {
 				set chatid [jq::jq ".message.chat.id" $msg]
 				set name [jq::jq ".message.from.username" $msg]
@@ -613,7 +614,7 @@ if {0} {
 }
 
 			# Check if this record is a supergroup record
-			"supergroup" {
+			"qfgqgsdgsfgsupergroup" {
 				foreach {tg_chat_id irc_channel} [array get tg_channels] {
 					if {$chatid eq $tg_chat_id} {
 						putchan $irc_channel [format $MSG_TG_UNIMPLEMENTED "Supergroup message received ($record)"
